@@ -7,15 +7,92 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
+    <Window.Resources>
+        <!--Цвета-->
+        <Color x:Key="PrimaryColor">#6A5ACD</Color>
+        <Color x:Key="AccentColor">#FF6B8E</Color>
+        <Color x:Key="DisabledColor">#CCCCCC</Color>
+        
+        <!--Кисти-->
+        <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"></SolidColorBrush>
+        <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"></SolidColorBrush>
+        <SolidColorBrush x:Key="DisabledBrush" Color="{StaticResource DisabledColor}"></SolidColorBrush>
+        
+        <!--Стиль для кнопки Добавить-->
+        <Style TargetType="Button" x:Key="AddButtonStyle">
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        
+        <!--Стиль для кнопки Удалить-->
+        <Style TargetType="Button" x:Key="DeleteButtonStyle">
+            <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        
+        <!--Стиль для TextBox-->
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+        
+        <!--Стиль для ListBox-->
+        <Style TargetType="ListBox">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        </Style>
+        
+        <!--Стиль для элементов ListBox-->
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#E3F2FD"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F5F5F5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <DataTemplate DataType="{x:Type local:TodoItem}">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding IsCompleted}" Margin="0, 0, 5, 0"></CheckBox>
+                    <TextBlock Text="{Binding TaskName}"></TextBlock>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+
     <StackPanel Orientation="Vertical" Margin="10">
-        <TextBox Text="{Binding NewTaskName, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,0,10">
+        <TextBox x:Name="TaskInputTextBox" 
+                 Text="{Binding NewTaskName, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="0,0,0,15"
+                 FontSize="14"
+                 ToolTip="Введите новую задачу">
         </TextBox>
-        <Button Content="Добавить" Command="{Binding AddCommand}"
-                Margin="0,0,0,10">
+        <Button x:Name="AddTaskButton" Content="Добавить" Command="{Binding AddCommand}"
+                Margin="0,0,0,10" Style="{StaticResource AddButtonStyle}">
         </Button>
-        <Button Content="Удалить" Command="{Binding DeleteCommand}"
-        Margin="0,0,0,10">
+        <Button x:Name="DeleteTaskButton" Content="Удалить" Command="{Binding DeleteCommand}"
+        Margin="0,0,0,10" Style="{StaticResource DeleteButtonStyle}">
         </Button>
         <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"></ListBox>
     </StackPanel>

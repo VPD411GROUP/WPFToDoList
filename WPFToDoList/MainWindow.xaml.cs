@@ -21,5 +21,10 @@ namespace WPFToDoList
             InitializeComponent();
             this.DataContext = new MainViewModel();
         }
+
+        private void TaskInputTextBox_KeyDown(object sender,KeyEventArgs e)
+        {
+            
+        }
     }   
 }
